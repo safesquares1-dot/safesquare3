@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.instagram.com)",
+      "WebSearch",
+      "Bash(npx create-next-app@latest *)"
+    ]
+  }
+}
