@@ -174,10 +174,10 @@ export default function Hero() {
               data-hero-cta
               className="mt-10 flex flex-wrap items-center gap-4"
             >
-              <Link href="#contact" className="btn-ink">
+              <Link href="/contact" className="btn-ink">
                 book a session
               </Link>
-              <Link href="#services" className="btn-ghost">
+              <Link href="/services" className="btn-ghost">
                 explore our care
               </Link>
               <span className="ml-2 hidden sm:inline font-display italic text-[14px] text-[var(--color-ink-muted)]">
@@ -255,7 +255,7 @@ export default function Hero() {
               </p>
 
               <Link
-                href="#services"
+                href="/services"
                 className="mt-6 inline-flex items-center gap-2 font-display italic text-[15px] text-[var(--color-ink)] group"
               >
                 <span className="u-link u-link-grow">see what we offer</span>

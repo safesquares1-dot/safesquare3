@@ -49,7 +49,7 @@ const openings = [
   { t: "Psychiatry (consultant)", loc: "Remote · monthly" },
 ];
 
-export default function Practitioners() {
+export default function PractitionersPage() {
   const scopeRef = useRef<HTMLElement | null>(null);
 
   useGsapContext(scopeRef, ({ mm, reduced }) => {
@@ -143,7 +143,6 @@ export default function Practitioners() {
   return (
     <section
       ref={scopeRef}
-      id="practitioners"
       className="relative overflow-hidden bg-[var(--color-ink)] text-[var(--color-paper)]"
     >
       <div
@@ -166,6 +165,7 @@ export default function Practitioners() {
       />
 
       <div className="relative mx-auto max-w-[1320px] px-6 section lg:px-10">
+        {/* Header */}
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <p
@@ -173,14 +173,14 @@ export default function Practitioners() {
               className="eyebrow"
               style={{ color: "var(--color-gilt)" }}
             >
-              Part three · for practitioners
+              For practitioners
             </p>
-            <h2
+            <h1
               data-prac-headline
               className="mt-6 h-section text-[clamp(2.6rem,6.5vw,5.4rem)]"
             >
               The clinic, viewed from the other chair.
-            </h2>
+            </h1>
           </div>
           <div data-prac-intro className="lg:col-span-5">
             <div className="h-px w-full bg-[rgba(244,236,220,0.25)] mb-6" />
@@ -195,6 +195,7 @@ export default function Practitioners() {
 
         <div className="mt-14 h-px bg-[rgba(244,236,220,0.3)]" />
 
+        {/* Provisions */}
         <div className="mt-16 grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-8">
             <p className="eyebrow" style={{ color: "var(--color-gilt)" }}>
@@ -218,17 +219,37 @@ export default function Practitioners() {
                       provision
                     </span>
                   </div>
-                  <h3 className="mt-5 font-display text-[22px] leading-tight">
+                  <h2 className="mt-5 font-display text-[22px] leading-tight">
                     {p.title}
-                  </h3>
+                  </h2>
                   <p className="mt-3 font-body text-[16px] leading-[1.6] text-[rgba(244,236,220,0.82)]">
                     {p.body}
                   </p>
                 </li>
               ))}
             </ol>
+
+            {/* Why SafeSquare */}
+            <div className="mt-14 max-w-[60ch] space-y-5">
+              <p className="eyebrow" style={{ color: "var(--color-gilt)" }}>
+                why practitioners choose us
+              </p>
+              <p className="font-body text-[18px] leading-[1.7] text-[rgba(244,236,220,0.8)]">
+                You trained for years to do this work well. The last thing you
+                need is a landlord who treats therapy rooms like co-working
+                desks, or a clinic that measures your value by monthly billing
+                targets.
+              </p>
+              <p className="font-body text-[18px] leading-[1.7] text-[rgba(244,236,220,0.8)]">
+                At SafeSquare, the infrastructure exists to support the work —
+                not the other way around. Reception, billing, referrals,
+                supervision, and a collegial team that disagrees in case
+                reviews, not in group chats.
+              </p>
+            </div>
           </div>
 
+          {/* Openings sidebar */}
           <aside className="lg:col-span-4 lg:sticky lg:top-32 lg:self-start">
             <div
               data-openings

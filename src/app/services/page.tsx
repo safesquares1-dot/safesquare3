@@ -10,53 +10,59 @@ const chapters = [
     no: "01",
     title: "Counselling",
     epigraph: "Begin where the weather is.",
-    body:
-      "Talk through what is heavy. Build practical resilience without performing wellness. Sessions are weekly or fortnightly; no script, no homework unless you want some.",
+    body: "Talk through what is heavy. Build practical resilience without performing wellness. Sessions are weekly or fortnightly; no script, no homework unless you want some.",
     tags: ["stress", "grief", "life transitions", "relationships"],
+    detail:
+      "Our counsellors hold space for the every-day weight — work stress, relationship strain, grief that does not announce itself. No scripts, no forced homework. Just a steady, confidential room and someone trained to listen well.",
   },
   {
     no: "02",
     title: "Psychotherapy",
     epigraph: "The patterns beneath the patterns.",
-    body:
-      "Long-form, trauma-informed work in the rooms between sessions. CBT, ACT, EMDR, and psychodynamic approaches — selected for you, not your file.",
+    body: "Long-form, trauma-informed work in the rooms between sessions. CBT, ACT, EMDR, and psychodynamic approaches — selected for you, not your file.",
     tags: ["trauma", "attachment", "long-form", "in-depth"],
+    detail:
+      "When the surface symptoms point to something deeper, psychotherapy offers a longer arc. Our therapists draw from CBT, ACT, EMDR, and psychodynamic modalities — choosing the approach that fits you, not the one that fits a diagnosis code.",
   },
   {
     no: "03",
     title: "Psychology",
     epigraph: "To name a thing is to begin to hold it.",
-    body:
-      "Diagnostic assessments and clinical interventions for what is making the day hard. Reports written in plain language, not jargon walls.",
+    body: "Diagnostic assessments and clinical interventions for what is making the day hard. Reports written in plain language, not jargon walls.",
     tags: ["ADHD", "anxiety", "depression", "neurodivergence"],
+    detail:
+      "Assessment and intervention for when daily life feels harder than it should. ADHD screening, anxiety and depression protocols, neurodivergence-affirming care. Reports are written in plain language — no jargon walls, no gatekeeping.",
   },
   {
     no: "04",
     title: "Wellness Coaching",
     epigraph: "Habits that compound, quietly.",
-    body:
-      "Less burnout, more capacity. We work on sleep, focus, boundaries, and recovery — with measurable goals and no vibes-only nonsense.",
+    body: "Less burnout, more capacity. We work on sleep, focus, boundaries, and recovery — with measurable goals and no vibes-only nonsense.",
     tags: ["sleep", "focus", "boundaries", "burnout"],
+    detail:
+      "For when you are not in crisis but know capacity is leaking. Our coaches work on sleep hygiene, focus architecture, boundary-setting, and recovery rhythms — all with measurable goals and no vibes-only advice.",
   },
   {
     no: "05",
     title: "Group Therapy",
     epigraph: "A small, honest room.",
-    body:
-      "Small, vetted groups, eight people maximum. Confidentiality is the floor, not the goal; warmth is the goal.",
+    body: "Small, vetted groups, eight people maximum. Confidentiality is the floor, not the goal; warmth is the goal.",
     tags: ["anxiety", "grief", "queer-affirming", "parents"],
+    detail:
+      "Eight people, vetted and facilitated. Groups for anxiety, grief, queer-affirming spaces, and parenting. Confidentiality is the floor, not the ceiling — warmth and honesty are what we build toward.",
   },
   {
     no: "06",
     title: "Child & Adolescent",
     epigraph: "Younger minds, older respect.",
-    body:
-      "Age-appropriate care for ages 6–17, with caregivers held in the loop. Play-based, school-aware, family-informed.",
+    body: "Age-appropriate care for ages 6–17, with caregivers held in the loop. Play-based, school-aware, family-informed.",
     tags: ["ages 6–17", "school", "family", "play-based"],
+    detail:
+      "For ages 6 through 17, with caregivers included in the process. Play-based approaches, school-aware planning, and family-informed sessions. Younger minds deserve the same respect and rigour as adult ones.",
   },
 ];
 
-export default function Services() {
+export default function ServicesPage() {
   const scopeRef = useRef<HTMLElement | null>(null);
 
   useGsapContext(scopeRef, ({ mm, reduced }) => {
@@ -105,44 +111,27 @@ export default function Services() {
           },
         }
       );
-
-      gsap.fromTo(
-        "[data-services-cta]",
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.9,
-          ease: "power3.out",
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: "[data-services-cta]",
-            start: "top bottom-=40",
-            toggleActions: "play none none none",
-          },
-        }
-      );
     });
   });
 
   return (
     <section
       ref={scopeRef}
-      id="services"
       className="relative overflow-hidden bg-[var(--color-paper-soft)]"
     >
       <div className="mx-auto max-w-[1320px] px-6 section lg:px-10">
+        {/* Header */}
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <p data-services-eyebrow className="eyebrow eyebrow-accent">
-              Part one · what we do
+              Our services
             </p>
-            <h2
+            <h1
               data-services-headline
               className="mt-6 h-section text-[clamp(2.6rem,6.5vw,5.4rem)] text-[var(--color-ink)]"
             >
               Six specialities, one quiet roof.
-            </h2>
+            </h1>
           </div>
           <div data-services-intro className="lg:col-span-5">
             <div className="rule-glow mb-6" />
@@ -159,6 +148,7 @@ export default function Services() {
 
         <div className="rule mt-14" />
 
+        {/* Service cards */}
         <div
           data-service-grid
           className="mt-16 grid gap-6 md:grid-cols-2 lg:gap-7"
@@ -183,12 +173,16 @@ export default function Services() {
                 </span>
               </div>
 
-              <h3 className="mt-8 font-display text-[clamp(2rem,3vw,2.8rem)] leading-[1.02] tracking-tight text-[var(--color-ink)]">
+              <h2 className="mt-8 font-display text-[clamp(2rem,3vw,2.8rem)] leading-[1.02] tracking-tight text-[var(--color-ink)]">
                 {c.title}
-              </h3>
+              </h2>
 
               <p className="mt-5 max-w-[52ch] font-body text-[16.5px] leading-[1.65] text-[var(--color-ink-soft)]">
                 {c.body}
+              </p>
+
+              <p className="mt-4 max-w-[52ch] font-body text-[15px] leading-[1.65] text-[var(--color-ink-muted)]">
+                {c.detail}
               </p>
 
               <div className="mt-7 flex flex-wrap gap-2">
@@ -214,8 +208,8 @@ export default function Services() {
           ))}
         </div>
 
+        {/* CTA */}
         <div
-          data-services-cta
           className="mt-20 surface-vellum relative overflow-hidden p-8 lg:p-12"
         >
           <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">

@@ -5,10 +5,10 @@ import Link from "next/link";
 import { gsap } from "@/lib/gsap";
 
 const links = [
-  { href: "#services", label: "Services" },
-  { href: "#about", label: "About" },
-  { href: "#practitioners", label: "Practitioners" },
-  { href: "#contact", label: "Contact" },
+  { href: "/services", label: "Services" },
+  { href: "/about", label: "About" },
+  { href: "/practitioners", label: "Practitioners" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -98,7 +98,7 @@ export default function Navbar() {
           >
             +92 300 1437360
           </Link>
-          <Link href="#contact" className="btn-ink">
+          <Link href="/contact" className="btn-ink">
             book a session
           </Link>
         </div>
@@ -157,7 +157,7 @@ export default function Navbar() {
           ))}
           <li className="py-5">
             <Link
-              href="#contact"
+              href="/contact"
               onClick={() => setOpen(false)}
               className="btn-ink w-full justify-center"
             >
