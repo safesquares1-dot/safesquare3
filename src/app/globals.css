@@ -423,6 +423,122 @@ select.field {
   border-color: rgba(20, 17, 13, 0.22);
 }
 
+/* ── Animated card hover ──────────────────────────────────── */
+.card-animated {
+  position: relative;
+  overflow: hidden;
+  transition: transform .6s var(--ease-out-expo),
+              box-shadow .6s var(--ease-out-expo),
+              border-color .4s;
+}
+.card-animated::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(176, 136, 56, 0.08),
+    rgba(184, 74, 42, 0.06),
+    transparent
+  );
+  transition: left .8s var(--ease-out-expo);
+  pointer-events: none;
+  z-index: 1;
+}
+.card-animated::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, var(--color-terracotta), var(--color-gilt)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .5s var(--ease-out-expo);
+  pointer-events: none;
+  z-index: 2;
+}
+.card-animated:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(184, 74, 42, 0.12), 0 8px 16px rgba(0,0,0,0.06);
+  border-color: rgba(176, 136, 56, 0.3);
+}
+.card-animated:hover::before {
+  left: 100%;
+}
+.card-animated:hover::after {
+  opacity: 1;
+}
+.card-animated > * {
+  position: relative;
+  z-index: 3;
+}
+
+/* Dark variant for practitioners page */
+.card-animated-dark {
+  position: relative;
+  overflow: hidden;
+  transition: transform .6s var(--ease-out-expo),
+              box-shadow .6s var(--ease-out-expo),
+              border-color .4s,
+              background .4s;
+}
+.card-animated-dark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(176, 136, 56, 0.1),
+    rgba(184, 74, 42, 0.08),
+    transparent
+  );
+  transition: left .8s var(--ease-out-expo);
+  pointer-events: none;
+  z-index: 1;
+}
+.card-animated-dark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, var(--color-gilt), var(--color-terracotta)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .5s var(--ease-out-expo);
+  pointer-events: none;
+  z-index: 2;
+}
+.card-animated-dark:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(176, 136, 56, 0.2), 0 8px 16px rgba(0,0,0,0.15);
+  border-color: rgba(176, 136, 56, 0.4);
+  background: rgba(176, 136, 56, 0.08);
+}
+.card-animated-dark:hover::before {
+  left: 100%;
+}
+.card-animated-dark:hover::after {
+  opacity: 1;
+}
+.card-animated-dark > * {
+  position: relative;
+  z-index: 3;
+}
+
 /* ── Tag pill ──────────────────────────────────────────────── */
 .tag {
   display: inline-flex;

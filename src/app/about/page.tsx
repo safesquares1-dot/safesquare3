@@ -7,6 +7,7 @@ import {
   splitHeadline,
   fadeUp,
   countUp,
+  parallaxY,
 } from "@/hooks/useGsap";
 import { gsap } from "@/lib/gsap";
 
@@ -40,6 +41,57 @@ const ledger = [
   { k: "Specialities", v: "6", count: true },
   { k: "Languages", v: "EN · HI · KN · TA", count: false },
   { k: "Rooms", v: "four, with kettles", count: false },
+];
+
+const timeline = [
+  {
+    year: "2020",
+    title: "The first room",
+    body: "Founded in winter, in a small room with a kettle and three folding chairs. One counsellor, one vision: mental healthcare that does not feel like a brochure.",
+  },
+  {
+    year: "2021",
+    title: "Growing quietly",
+    body: "Added psychotherapy and psychology services. Hired our first three practitioners. No press releases, no launch party — just word of mouth.",
+  },
+  {
+    year: "2022",
+    title: "The Clifton move",
+    body: "Moved to AC-10, Block-4, Clifton. Four consulting rooms, a small garden, and enough kettle capacity for the whole team.",
+  },
+  {
+    year: "2023",
+    title: "Expanding care",
+    body: "Launched group therapy and child & adolescent services. Partnered with local schools for early intervention programmes.",
+  },
+  {
+    year: "2024",
+    title: "500 lives held",
+    body: "Crossed 500 clients served. Added wellness coaching to the roster. Still no Instagram infographics.",
+  },
+];
+
+const values = [
+  {
+    icon: "◇",
+    title: "Ethics over optics",
+    body: "We make decisions based on what is right for the client, not what looks good in a newsletter.",
+  },
+  {
+    icon: "○",
+    title: "Quiet competence",
+    body: "We do not announce every milestone. The work speaks for itself, in the rooms where it happens.",
+  },
+  {
+    icon: "△",
+    title: "Continuous learning",
+    body: "Monthly supervision, CPD workshops, and a culture that treats 'I don't know' as a starting point, not an admission.",
+  },
+  {
+    icon: "□",
+    title: "Collegial respect",
+    body: "Multi-disciplinary means we disagree — in case reviews, with evidence, and with warmth. Not in group chats.",
+  },
 ];
 
 export default function AboutPage() {
@@ -85,6 +137,11 @@ export default function AboutPage() {
       start: "top 80%",
     });
 
+    parallaxY(mm, "[data-about-orb]", {
+      y: 100,
+      trigger: scopeRef.current!,
+    });
+
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       gsap.fromTo(
         "[data-principle]",
@@ -120,6 +177,42 @@ export default function AboutPage() {
           },
         }
       );
+
+      gsap.fromTo(
+        "[data-timeline-item]",
+        { x: -30, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.15,
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: "[data-timeline]",
+            start: "top bottom-=60",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+
+      gsap.fromTo(
+        "[data-value]",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.85,
+          ease: "power3.out",
+          stagger: 0.12,
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: "[data-values]",
+            start: "top bottom-=60",
+            toggleActions: "play none none none",
+          },
+        }
+      );
     });
 
     countUp(mm, "[data-ledger-count]");
@@ -130,7 +223,17 @@ export default function AboutPage() {
       ref={scopeRef}
       className="relative overflow-hidden bg-[var(--color-paper)]"
     >
-      <div className="mx-auto max-w-[1320px] px-6 section lg:px-10">
+      <div
+        data-about-orb
+        aria-hidden
+        className="orb h-[450px] w-[450px] left-[-120px] top-[300px]"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 50%, rgba(176,136,56,0.15), transparent 70%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-[1320px] px-6 section lg:px-10">
         {/* Header */}
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
@@ -193,7 +296,7 @@ export default function AboutPage() {
                 <li
                   key={p.no}
                   data-principle
-                  className="group surface card-hover p-6"
+                  className="group surface card-animated p-6"
                 >
                   <div className="flex items-baseline justify-between">
                     <span className="font-mono text-[11px] tracking-[0.28em] text-[var(--color-terracotta)]">
@@ -275,8 +378,76 @@ export default function AboutPage() {
           </aside>
         </div>
 
+        {/* Timeline */}
+        <div data-timeline className="mt-24">
+          <div className="flex items-center gap-3 mb-10">
+            <span className="eyebrow eyebrow-accent">our journey</span>
+            <span className="h-px flex-1 bg-[var(--color-rule)]" />
+          </div>
+
+          <div className="relative">
+            <div className="absolute left-4 top-0 bottom-0 w-px bg-[var(--color-rule)] lg:left-1/2" />
+
+            {timeline.map((t, i) => (
+              <div
+                key={t.year}
+                data-timeline-item
+                className={`relative flex items-start gap-8 mb-10 last:mb-0 ${
+                  i % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"
+                }`}
+              >
+                <div className={`flex-1 ${i % 2 === 0 ? "lg:text-right" : "lg:text-left"}`}>
+                  <div className={`inline-block surface p-6 ${i % 2 === 0 ? "lg:ml-auto" : "lg:mr-auto"} max-w-md`}>
+                    <span className="font-mono text-[12px] tracking-[0.3em] text-[var(--color-terracotta)]">
+                      {t.year}
+                    </span>
+                    <h3 className="mt-3 font-display text-[20px] text-[var(--color-ink)]">
+                      {t.title}
+                    </h3>
+                    <p className="mt-2 font-body text-[15px] leading-[1.6] text-[var(--color-ink-soft)]">
+                      {t.body}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="absolute left-4 top-6 w-3 h-3 rounded-full bg-[var(--color-terracotta)] border-2 border-[var(--color-paper)] lg:left-1/2 lg:-translate-x-1/2" />
+
+                <div className="flex-1 hidden lg:block" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Values */}
+        <div data-values className="mt-24">
+          <div className="flex items-center gap-3 mb-10">
+            <span className="eyebrow eyebrow-accent">what drives us</span>
+            <span className="h-px flex-1 bg-[var(--color-rule)]" />
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map((v) => (
+              <div
+                key={v.title}
+                data-value
+                className="group surface card-animated p-7 text-center"
+              >
+                <span className="text-[32px] text-[var(--color-terracotta)] block mb-4">
+                  {v.icon}
+                </span>
+                <h3 className="font-display text-[18px] text-[var(--color-ink)]">
+                  {v.title}
+                </h3>
+                <p className="mt-3 font-body text-[14px] leading-[1.6] text-[var(--color-ink-soft)]">
+                  {v.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* CTA */}
-        <div className="mt-20 surface-vellum relative overflow-hidden p-8 lg:p-12">
+        <div className="mt-24 surface-vellum relative overflow-hidden p-8 lg:p-12">
           <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-[58ch]">
               <p className="eyebrow eyebrow-accent">want to know more?</p>

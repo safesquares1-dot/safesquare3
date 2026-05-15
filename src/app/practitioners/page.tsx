@@ -15,38 +15,77 @@ const provisions = [
     no: "01",
     title: "Rooms by the hour",
     body: "Fully-equipped consulting rooms. Book by the hour or take a recurring slot. No long lease, no setup costs, no key deposits.",
+    detail: "Each room is soundproofed, temperature-controlled, and stocked with the basics — tissues, water, notepads. You bring the expertise; we provide the four walls.",
   },
   {
     no: "02",
     title: "A vetted referral network",
     body: "Receive in-clinic referrals from a small, vetted team. We route on fit, not on monthly headcount targets.",
+    detail: "When a client's needs fall outside your speciality, we match them with a colleague — and you receive referrals that fit yours. No cross-selling, no pressure to expand your scope.",
   },
   {
     no: "03",
     title: "Admin off your plate",
     body: "Reception, bookings, billing, follow-ups, insurance correspondence — included with every chair, included by default.",
+    detail: "Our admin team handles scheduling, invoicing, insurance claims, and follow-up reminders. You focus on the clinical work; we handle the paperwork.",
   },
   {
     no: "04",
     title: "Peer supervision",
     body: "Monthly small-group supervision and CPD-eligible workshops, hosted in-house. Tea and biscuits provided; opinions, generously.",
+    detail: "Case reviews, ethical discussions, and skill-building workshops — all CPD-eligible. Supervision is not a checkbox; it is how we stay sharp and honest.",
   },
   {
     no: "05",
     title: "Marketing without the clout",
     body: "Get listed on the directory and benefit from clinic-wide press. No engagement bait, no testimonial farming.",
+    detail: "A professional profile on our website, inclusion in clinic press, and referrals from our network. We do not ask you to post infographics or collect testimonials.",
   },
   {
     no: "06",
     title: "A collegial team",
     body: "Multi-disciplinary, multi-generational, multilingual. Disagreements happen in case reviews, not in group chats.",
+    detail: "Counsellors, psychotherapists, psychologists, and wellness coaches working side by side. Monthly team lunches, case consultations, and a culture that values disagreement with evidence.",
   },
 ];
 
 const openings = [
-  { t: "Child psychology", loc: "Karachi · hybrid" },
-  { t: "Couples therapy", loc: "Karachi · in-clinic" },
-  { t: "Psychiatry (consultant)", loc: "Remote · monthly" },
+  { t: "Child psychology", loc: "Karachi · hybrid", type: "Full-time" },
+  { t: "Couples therapy", loc: "Karachi · in-clinic", type: "Part-time" },
+  { t: "Psychiatry (consultant)", loc: "Remote · monthly", type: "Consultant" },
+];
+
+const benefits = [
+  {
+    title: "Flexible scheduling",
+    body: "Set your own hours. We accommodate recurring slots, ad-hoc bookings, and hybrid arrangements.",
+  },
+  {
+    title: "Professional development",
+    body: "Annual CPD budget, in-house workshops, and access to supervision across modalities.",
+  },
+  {
+    title: "No billing targets",
+    body: "We measure success by client outcomes, not monthly revenue. No pressure to upsell or extend sessions.",
+  },
+  {
+    title: "Clinical autonomy",
+    body: "You choose your modalities, set your boundaries, and run your practice your way. We provide the infrastructure.",
+  },
+];
+
+const dayInLife = [
+  { time: "08:30", activity: "Arrive, kettle on, review the day's notes" },
+  { time: "09:00", activity: "First session — individual counselling" },
+  { time: "10:00", activity: "Break — tea, notes, a walk in the garden" },
+  { time: "10:30", activity: "Second session — couples therapy" },
+  { time: "11:30", activity: "Peer consultation with a colleague" },
+  { time: "12:00", activity: "Third session — adolescent therapy" },
+  { time: "13:00", activity: "Lunch — team kitchen, or quietly alone" },
+  { time: "14:00", activity: "Admin hour — notes, follow-ups, billing (handled by admin)" },
+  { time: "15:00", activity: "Fourth session — group facilitation" },
+  { time: "16:15", activity: "Supervision or CPD workshop" },
+  { time: "17:00", activity: "Wrap up, kettle off, head home" },
 ];
 
 export default function PractitionersPage() {
@@ -137,6 +176,42 @@ export default function PractitionersPage() {
           },
         }
       );
+
+      gsap.fromTo(
+        "[data-benefit]",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.85,
+          ease: "power3.out",
+          stagger: 0.12,
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: "[data-benefits]",
+            start: "top bottom-=60",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+
+      gsap.fromTo(
+        "[data-day-item]",
+        { x: -20, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.08,
+          ease: "power2.out",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: "[data-day]",
+            start: "top bottom-=60",
+            toggleActions: "play none none none",
+          },
+        }
+      );
     });
   });
 
@@ -206,7 +281,7 @@ export default function PractitionersPage() {
                 <li
                   key={p.no}
                   data-provision
-                  className="group rounded-2xl border border-[rgba(244,236,220,0.15)] bg-[rgba(244,236,220,0.04)] p-7 transition-all duration-500 hover:border-[var(--color-gilt)] hover:bg-[rgba(176,136,56,0.06)] hover:-translate-y-1"
+                  className="group card-animated-dark rounded-2xl border border-[rgba(244,236,220,0.15)] bg-[rgba(244,236,220,0.04)] p-7"
                 >
                   <div className="flex items-baseline justify-between">
                     <span
@@ -225,12 +300,65 @@ export default function PractitionersPage() {
                   <p className="mt-3 font-body text-[16px] leading-[1.6] text-[rgba(244,236,220,0.82)]">
                     {p.body}
                   </p>
+                  <p className="mt-3 font-body text-[14px] leading-[1.6] text-[rgba(244,236,220,0.65)]">
+                    {p.detail}
+                  </p>
                 </li>
               ))}
             </ol>
 
+            {/* Benefits */}
+            <div data-benefits className="mt-16">
+              <p className="eyebrow" style={{ color: "var(--color-gilt)" }}>
+                practitioner benefits
+              </p>
+              <div className="mt-8 grid gap-5 sm:grid-cols-2">
+                {benefits.map((b) => (
+                  <div
+                    key={b.title}
+                    data-benefit
+                    className="card-animated-dark rounded-xl border border-[rgba(244,236,220,0.12)] bg-[rgba(244,236,220,0.03)] p-6"
+                  >
+                    <h3 className="font-display text-[18px] text-[var(--color-paper)]">
+                      {b.title}
+                    </h3>
+                    <p className="mt-2 font-body text-[14px] leading-[1.6] text-[rgba(244,236,220,0.75)]">
+                      {b.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Day in the life */}
+            <div data-day className="mt-16">
+              <p className="eyebrow" style={{ color: "var(--color-gilt)" }}>
+                a day at SafeSquare
+              </p>
+              <div className="mt-8 relative">
+                <div className="absolute left-[60px] top-0 bottom-0 w-px bg-[rgba(244,236,220,0.15)]" />
+                {dayInLife.map((d) => (
+                  <div
+                    key={d.time}
+                    data-day-item
+                    className="flex items-start gap-6 mb-5 last:mb-0"
+                  >
+                    <span className="font-mono text-[13px] text-[var(--color-gilt)] w-[50px] text-right shrink-0">
+                      {d.time}
+                    </span>
+                    <div className="flex items-center gap-3">
+                      <span className="w-2 h-2 rounded-full bg-[var(--color-gilt)] shrink-0" />
+                      <span className="font-body text-[16px] text-[rgba(244,236,220,0.85)]">
+                        {d.activity}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Why SafeSquare */}
-            <div className="mt-14 max-w-[60ch] space-y-5">
+            <div className="mt-16 max-w-[60ch] space-y-5">
               <p className="eyebrow" style={{ color: "var(--color-gilt)" }}>
                 why practitioners choose us
               </p>
@@ -270,7 +398,7 @@ export default function PractitionersPage() {
               </div>
               <div className="rule-thin mt-3" />
 
-              <ul className="mt-6 space-y-4">
+              <ul className="mt-6 space-y-5">
                 {openings.map((o, i) => (
                   <li key={o.t} data-opening-item className="group">
                     <div className="flex items-baseline justify-between gap-3">
@@ -282,7 +410,7 @@ export default function PractitionersPage() {
                           {o.t}
                         </span>
                       </span>
-                      <span className="stamp-forest stamp">open</span>
+                      <span className="stamp-forest stamp">{o.type}</span>
                     </div>
                     <p className="mt-1 ml-7 font-display italic text-[13px] text-[var(--color-ink-muted)]">
                       {o.loc}

@@ -1,7 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
-import { useGsapContext, splitHeadline, fadeUp } from "@/hooks/useGsap";
+import {
+  useGsapContext,
+  splitHeadline,
+  fadeUp,
+  parallaxY,
+} from "@/hooks/useGsap";
 import { gsap } from "@/lib/gsap";
 
 const correspondence = [
@@ -32,6 +38,40 @@ const hours = [
   { d: "Sunday", h: "by appointment", tag: "online" },
 ];
 
+const faqs = [
+  {
+    q: "What should I write in my first message?",
+    a: "A few sentences about what is going on. You do not need to diagnose yourself or pick a label — just tell us, in your own words. We will read it and write back.",
+  },
+  {
+    q: "How quickly will I hear back?",
+    a: "Within one working day. Someone reads every letter personally — no auto-replies, no chatbots.",
+  },
+  {
+    q: "Do I need a referral from a doctor?",
+    a: "No. You can write to us directly. If your situation requires a specialist we do not have, we will say so and help you find one.",
+  },
+  {
+    q: "Is my information kept confidential?",
+    a: "Yes. Everything you share is held in strict confidence. Records stay on ISO-grade systems. We never sell, share, or train models on your data.",
+  },
+  {
+    q: "Can I book a session for someone else?",
+    a: "You can write to us on behalf of a family member or friend, but they will need to consent to care themselves. We can guide you through the process.",
+  },
+  {
+    q: "What if I need help outside office hours?",
+    a: "For emergencies, contact your local emergency services. For non-urgent support, write to us and we will respond on the next working day.",
+  },
+];
+
+const landmarks = [
+  { name: "Clifton Beach", distance: "5 min walk" },
+  { name: "Dolmen Mall Clifton", distance: "8 min drive" },
+  { name: "Karachi Grammar School", distance: "3 min drive" },
+  { name: "Sea View Apartments", distance: "2 min walk" },
+];
+
 export default function ContactPage() {
   const scopeRef = useRef<HTMLElement | null>(null);
 
@@ -56,6 +96,11 @@ export default function ContactPage() {
       delay: 0.1,
       trigger: scopeRef.current!,
       start: "top 75%",
+    });
+
+    parallaxY(mm, "[data-contact-orb]", {
+      y: 100,
+      trigger: scopeRef.current!,
     });
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -111,6 +156,24 @@ export default function ContactPage() {
           },
         }
       );
+
+      gsap.fromTo(
+        "[data-faq-item]",
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          ease: "power2.out",
+          stagger: 0.1,
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: "[data-faqs]",
+            start: "top bottom-=60",
+            toggleActions: "play none none none",
+          },
+        }
+      );
     });
   });
 
@@ -119,7 +182,17 @@ export default function ContactPage() {
       ref={scopeRef}
       className="relative overflow-hidden bg-[var(--color-paper-soft)]"
     >
-      <div className="mx-auto max-w-[1320px] px-6 section lg:px-10">
+      <div
+        data-contact-orb
+        aria-hidden
+        className="orb h-[400px] w-[400px] right-[-100px] top-[150px]"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 50%, rgba(58,90,58,0.12), transparent 70%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-[1320px] px-6 section lg:px-10">
         {/* Header */}
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
@@ -222,6 +295,48 @@ export default function ContactPage() {
                 session notes.
               </p>
             </div>
+
+            {/* Location landmarks */}
+            <div data-contact-card className="mt-6 surface p-7 lg:p-8">
+              <p className="eyebrow">getting here</p>
+              <div className="rule-thin mt-3" />
+              <p className="mt-4 font-body text-[15px] leading-[1.6] text-[var(--color-ink-soft)]">
+                We are on the 1st Floor of AC-10, Block-4, Clifton — a short walk from the beach and close to major landmarks.
+              </p>
+              <ul className="mt-5 space-y-3">
+                {landmarks.map((l) => (
+                  <li
+                    key={l.name}
+                    className="flex items-center justify-between border-b border-dotted border-[var(--color-rule)] pb-2 last:border-0 last:pb-0"
+                  >
+                    <span className="font-display text-[15px] text-[var(--color-ink)]">
+                      {l.name}
+                    </span>
+                    <span className="font-mono text-[12px] text-[var(--color-terracotta)]">
+                      {l.distance}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Emergency */}
+            <div data-contact-card className="mt-6 surface p-7 lg:p-8 border-l-4 border-[var(--color-terracotta)]">
+              <p className="eyebrow text-[var(--color-terracotta)]">in an emergency</p>
+              <p className="mt-3 font-body text-[15px] leading-[1.6] text-[var(--color-ink-soft)]">
+                If you or someone you know is in immediate danger, contact your local emergency services. SafeSquare is not an emergency service.
+              </p>
+              <div className="mt-4 space-y-2">
+                <p className="font-display text-[14px] text-[var(--color-ink)]">
+                  <span className="font-mono text-[12px] text-[var(--color-terracotta)]">Emergency:</span>{" "}
+                  15 (Edhi) / 115 (Chhipa)
+                </p>
+                <p className="font-display text-[14px] text-[var(--color-ink)]">
+                  <span className="font-mono text-[12px] text-[var(--color-terracotta)]">Crisis helpline:</span>{" "}
+                  0800-22444 (PAHCHAAN)
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Form */}
@@ -259,6 +374,14 @@ export default function ContactPage() {
                 placeholder="you@example.com"
               />
             </div>
+            <div data-field className="mt-7">
+              <Field
+                id="phone"
+                type="tel"
+                label="Telephone (optional)"
+                placeholder="+92 300 000 0000"
+              />
+            </div>
 
             <div data-field className="mt-7">
               <label
@@ -282,6 +405,31 @@ export default function ContactPage() {
                 </option>
                 <option value="press">press · partnerships</option>
                 <option value="other">someone simply curious</option>
+              </select>
+            </div>
+
+            <div data-field className="mt-7">
+              <label
+                htmlFor="service"
+                className="block font-display italic text-[15px] text-[var(--color-ink-muted)]"
+              >
+                I am interested in
+              </label>
+              <select
+                id="service"
+                className="field mt-1"
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  — choose one (optional) —
+                </option>
+                <option value="counselling">Counselling</option>
+                <option value="psychotherapy">Psychotherapy</option>
+                <option value="psychology">Psychology</option>
+                <option value="coaching">Wellness Coaching</option>
+                <option value="group">Group Therapy</option>
+                <option value="child">Child & Adolescent</option>
+                <option value="unsure">Not sure yet</option>
               </select>
             </div>
 
@@ -321,6 +469,53 @@ export default function ContactPage() {
             </div>
           </form>
         </div>
+
+        {/* FAQs */}
+        <div data-faqs className="mt-24">
+          <div className="flex items-center gap-3 mb-10">
+            <span className="eyebrow eyebrow-accent">before you write</span>
+            <span className="h-px flex-1 bg-[var(--color-rule)]" />
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {faqs.map((f, i) => (
+              <div
+                key={i}
+                data-faq-item
+                className="surface card-animated p-7"
+              >
+                <h3 className="font-display text-[17px] text-[var(--color-ink)]">
+                  {f.q}
+                </h3>
+                <p className="mt-3 font-body text-[14px] leading-[1.6] text-[var(--color-ink-soft)]">
+                  {f.a}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-24 surface-vellum relative overflow-hidden p-8 lg:p-12">
+          <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-[58ch]">
+              <p className="eyebrow eyebrow-accent">still have questions?</p>
+              <h3 className="mt-3 font-display text-[clamp(1.7rem,3vw,2.4rem)] leading-tight text-[var(--color-ink)]">
+                Call us, or drop by.
+                <br />
+                <span className="italic-display">The kettle is always on.</span>
+              </h3>
+            </div>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link href="tel:+923001437360" className="btn-ink">
+                call directly
+              </Link>
+              <Link href="/about" className="btn-ghost">
+                learn about us
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -348,7 +543,7 @@ function Field({
       <input
         id={id}
         type={type}
-        required
+        required={type !== "tel"}
         placeholder={placeholder}
         className="field mt-1"
       />
