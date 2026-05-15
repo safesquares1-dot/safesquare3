@@ -1,26 +1,540 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ─────────────────────────────────────────────────────────────
+   SAFESQUARE // editorial-modern
+   warm paper · deep ink · terracotta · forest · gilt
+   refined serif · glass surfaces · ambient motion
+   ───────────────────────────────────────────────────────────── */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: #f5ede0;
+  --color-paper-deep: #ecdfc6;
+  --color-paper-soft: #faf4e8;
+  --color-vellum: #efe5cf;
+
+  --color-ink: #14110d;
+  --color-ink-soft: #2a241c;
+  --color-ink-muted: #6a5d49;
+  --color-ink-faint: rgba(20, 17, 13, 0.55);
+
+  --color-rule: rgba(20, 17, 13, 0.14);
+  --color-rule-strong: rgba(20, 17, 13, 0.32);
+
+  --color-terracotta: #b84a2a;
+  --color-terracotta-deep: #8e3618;
+  --color-terracotta-soft: #d56b46;
+  --color-oxblood: #6e1f1a;
+  --color-forest: #3a5a3a;
+  --color-forest-deep: #243a23;
+  --color-gilt: #b08838;
+
+  /* aliases */
+  --color-bg: #f5ede0;
+  --color-bg-secondary: #ecdfc6;
+  --color-bg-card: #faf4e8;
+  --color-primary: #b84a2a;
+  --color-primary-dark: #8e3618;
+  --color-accent: #3a5a3a;
+  --color-accent-light: #6a5d49;
+  --color-text: #14110d;
+  --color-text-muted: #6a5d49;
+  --color-border: rgba(20, 17, 13, 0.14);
+  --color-warm: #b08838;
+  --color-cool: #3a5a3a;
+
+  --font-display: "Fraunces", "Cormorant Garamond", "Garamond", "Times New Roman", serif;
+  --font-body: "EB Garamond", "Garamond", "Times New Roman", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --shadow-soft: 0 1px 2px rgba(20, 17, 13, 0.04), 0 8px 24px -12px rgba(20, 17, 13, 0.12);
+  --shadow-lift: 0 2px 4px rgba(20, 17, 13, 0.04), 0 24px 48px -20px rgba(20, 17, 13, 0.22);
+  --shadow-glow: 0 0 0 1px rgba(184, 74, 42, 0.12), 0 20px 48px -16px rgba(184, 74, 42, 0.22);
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.65;
+  font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
+  overflow-x: hidden;
+}
+
+/* ── Ambient atmosphere ─────────────────────────────────────
+   A soft warm wash + the faintest grain. Modern, not noisy. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(60% 50% at 12% 0%, rgba(184, 74, 42, 0.10), transparent 60%),
+    radial-gradient(50% 50% at 92% 12%, rgba(176, 136, 56, 0.10), transparent 65%),
+    radial-gradient(70% 60% at 50% 100%, rgba(58, 90, 58, 0.07), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.11 0 0 0 0 0.05 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(20, 17, 13, 0.22);
+  border-radius: 999px;
+  border: 2px solid var(--color-paper);
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(20, 17, 13, 0.4); }
+::selection { background: var(--color-terracotta); color: var(--color-paper-soft); }
+
+/* ── Type primitives ───────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  letter-spacing: -0.02em;
+}
+.font-body { font-family: var(--font-body); }
+.font-mono { font-family: var(--font-mono); }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-ink-muted);
+}
+.eyebrow-accent { color: var(--color-terracotta); }
+
+.caps {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 10.5px;
+  font-weight: 500;
+}
+.caps-serif {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 11px;
+  font-weight: 500;
+}
+.small-caps {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.12em;
+  font-feature-settings: "smcp" 1, "c2sc" 1;
+}
+
+/* ── Display headings ──────────────────────────────────────── */
+.h-display {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: -0.035em;
+}
+.italic-display {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-variation-settings: "opsz" 144;
+  font-weight: 400;
+}
+.h-section {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 100, "SOFT" 40;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+/* ── Pull quote ────────────────────────────────────────────── */
+.pull-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  line-height: 1.22;
+  letter-spacing: -0.012em;
+  color: var(--color-ink);
+}
+
+/* ── Drop cap (kept, restrained) ───────────────────────────── */
+.dropcap::first-letter {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+  float: left;
+  font-size: 4.6em;
+  line-height: 0.82;
+  padding: 6px 12px 0 0;
+  margin-top: 6px;
+  color: var(--color-terracotta);
+  font-style: normal;
+}
+
+/* ── Rules ─────────────────────────────────────────────────── */
+.rule { height: 1px; background: var(--color-rule-strong); }
+.rule-thin { height: 1px; background: var(--color-rule); }
+.rule-dash { height: 0; border-top: 1px dashed var(--color-rule-strong); }
+.rule-glow {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-rule-strong), transparent);
+}
+
+/* ── Ornament ──────────────────────────────────────────────── */
+.ornament {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: var(--color-ink-muted);
+}
+.ornament-glyph {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--color-terracotta);
+}
+
+/* ── Folio (used sparingly now) ────────────────────────────── */
+.folio {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--color-ink-muted);
+}
+
+/* ── Buttons — modern editorial ────────────────────────────── */
+.btn-ink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1px solid var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  font-style: italic;
+  font-weight: 400;
+  transition: transform .35s var(--ease-out-soft),
+              background .25s var(--ease-out-soft),
+              box-shadow .35s var(--ease-out-soft);
+  box-shadow: var(--shadow-soft);
+  white-space: nowrap;
+}
+.btn-ink::after {
+  content: "→";
+  display: inline-block;
+  font-style: normal;
+  transition: transform .35s var(--ease-out-soft);
+}
+.btn-ink:hover {
+  background: var(--color-terracotta);
+  border-color: var(--color-terracotta);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-glow);
+}
+.btn-ink:hover::after { transform: translateX(4px); }
+.btn-ink.no-arrow::after { content: none; }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid var(--color-rule-strong);
+  background: transparent;
+  color: var(--color-ink);
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  transition: all .3s var(--ease-out-soft);
+}
+.btn-ghost:hover {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  border-color: var(--color-ink);
+  transform: translateY(-1px);
+}
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 15px;
+  color: var(--color-ink);
+  position: relative;
+}
+.btn-link::after {
+  content: "→";
+  font-style: normal;
+  transition: transform .35s var(--ease-out-soft);
+}
+.btn-link:hover::after { transform: translateX(4px); }
+
+/* ── Underline link ────────────────────────────────────────── */
+.u-link {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  color: inherit;
+}
+.u-link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+  transform: scaleX(1);
+  transform-origin: right;
+  transition: opacity .3s, transform .45s var(--ease-out-expo);
+}
+.u-link:hover::after {
+  opacity: 1;
+  transform-origin: left;
+  transform: scaleX(1);
+}
+.u-link-grow::after { transform: scaleX(0); transform-origin: left; }
+.u-link-grow:hover::after { transform: scaleX(1); }
+
+/* ── Footnote ──────────────────────────────────────────────── */
+.footnote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-ink-muted);
+}
+.footnote-marker {
+  font-family: var(--font-display);
+  font-size: 0.75em;
+  vertical-align: super;
+  color: var(--color-terracotta);
+}
+
+/* ── Form fields ───────────────────────────────────────────── */
+.field {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--color-rule-strong);
+  background: transparent;
+  padding: 14px 2px 10px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--color-ink);
+  transition: border-color .25s var(--ease-out-soft);
+}
+.field:focus {
+  outline: none;
+  border-color: var(--color-terracotta);
+}
+.field::placeholder {
+  color: var(--color-ink-muted);
+  font-style: italic;
+  opacity: 0.6;
+}
+textarea.field {
+  border: 1px solid var(--color-rule-strong);
+  border-radius: 14px;
+  padding: 16px 18px;
+  background: rgba(250, 244, 232, 0.6);
+  backdrop-filter: blur(8px);
+}
+textarea.field:focus { border-color: var(--color-terracotta); }
+
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%236a5d49' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  padding-right: 28px;
+}
+
+/* ── Surfaces ──────────────────────────────────────────────── */
+.surface {
+  background: var(--color-paper-soft);
+  border: 1px solid var(--color-rule);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+}
+.surface-lift {
+  background: var(--color-paper-soft);
+  border: 1px solid var(--color-rule);
+  border-radius: 22px;
+  box-shadow: var(--shadow-lift);
+}
+.surface-glass {
+  background: rgba(245, 237, 224, 0.72);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(20, 17, 13, 0.08);
+  border-radius: 18px;
+}
+.surface-vellum {
+  background: linear-gradient(180deg, var(--color-vellum), var(--color-paper-soft));
+  border: 1px solid var(--color-rule);
+  border-radius: 18px;
+}
+
+/* ── Card hover ────────────────────────────────────────────── */
+.card-hover {
+  transition: transform .55s var(--ease-out-expo),
+              box-shadow .55s var(--ease-out-expo),
+              border-color .35s;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+  border-color: rgba(20, 17, 13, 0.22);
+}
+
+/* ── Tag pill ──────────────────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 11px;
+  border: 1px solid var(--color-rule-strong);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  background: rgba(250, 244, 232, 0.6);
+}
+
+/* ── Stamp ─────────────────────────────────────────────────── */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1.2px solid var(--color-terracotta);
+  color: var(--color-terracotta);
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  background: rgba(184, 74, 42, 0.06);
+}
+.stamp-ink { border-color: var(--color-ink); color: var(--color-ink); background: transparent; }
+.stamp-forest { border-color: var(--color-forest); color: var(--color-forest); background: rgba(58, 90, 58, 0.06); }
+
+/* ── Glass navbar ──────────────────────────────────────────── */
+.nav-glass {
+  background: rgba(245, 237, 224, 0.78);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-bottom: 1px solid rgba(20, 17, 13, 0.08);
+}
+
+/* ── Marquee (GSAP drives the motion; this is just layout) ─── */
+.marquee {
+  display: flex;
+  width: max-content;
+}
+
+/* ── Reveal (semantic markers only — GSAP handles motion) ──── */
+.reveal,
+.reveal-children > * {
+  /* No CSS animation. GSAP context targets these selectors. */
+  will-change: transform, opacity;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(0.85); }
+}
+.dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: var(--color-terracotta);
+  border-radius: 50%;
+  animation: pulse-dot 1.9s ease-in-out infinite;
+  box-shadow: 0 0 0 4px rgba(184, 74, 42, 0.18);
+}
+.dot-forest {
+  background: var(--color-forest);
+  box-shadow: 0 0 0 4px rgba(58, 90, 58, 0.18);
+}
+
+/* ── Hero ambient orb (GSAP drives parallax) ───────────────── */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.6;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ── Animated underline marker ─────────────────────────────── */
+.marker {
+  position: relative;
+  display: inline-block;
+}
+.marker::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  bottom: 8%;
+  height: 22%;
+  background: var(--color-terracotta);
+  opacity: 0.22;
+  z-index: -1;
+  border-radius: 2px;
+  transform: skewX(-6deg);
+}
+
+/* ── Section spacing helpers ───────────────────────────────── */
+.section { padding-top: clamp(5rem, 10vw, 9rem); padding-bottom: clamp(5rem, 10vw, 9rem); }
+
+/* ── Bg ruled (subtle, modern) ─────────────────────────────── */
+.bg-ruled {
+  background-image: linear-gradient(to bottom, rgba(20, 17, 13, 0.045) 1px, transparent 1px);
+  background-size: 100% 34px;
+  background-position: 0 18px;
+}
+
+/* ── Reduce motion (GSAP handles the rest via matchMedia) ──── */
+@media (prefers-reduced-motion: reduce) {
+  .dot { animation: none !important; }
+  html { scroll-behavior: auto; }
 }

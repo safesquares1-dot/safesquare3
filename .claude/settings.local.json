@@ -3,7 +3,17 @@
     "allow": [
       "WebFetch(domain:www.instagram.com)",
       "WebSearch",
-      "Bash(npx create-next-app@latest *)"
+      "Bash(npx create-next-app@latest *)",
+      "Bash(npm run *)",
+      "Bash(node *)",
+      "Bash(npx --no-install next build)",
+      "Bash(PORT=3457 npx --no-install next dev -p 3457)",
+      "Bash(curl -s -o /tmp/safesq.html -w \"HTTP %{http_code}\\\\n\" http://localhost:3457/)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /tmp/safesq.html -w \"HTTP %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(grep -oE '\\(error|Error|cannot\\)[^\"<>]{0,80}' /tmp/safesq.html)",
+      "Bash(npm install *)",
+      "Bash(npx eslint *)"
     ]
   }
 }
